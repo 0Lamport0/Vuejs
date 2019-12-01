@@ -1,13 +1,15 @@
 <template>
-  <router-view></router-view>
+    <div>
+        Details
+    </div>
 </template>
 
 <script>
 export default {
-  
+    
 }
 </script>
 
 <style lang="">
-  
+    
 </style>
