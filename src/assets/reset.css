@@ -245,3 +245,8 @@ a {
     -moz-osx-font-smoothing: grayscale;
     vertical-align: middle;
 }
+.line-ellipsis{
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}

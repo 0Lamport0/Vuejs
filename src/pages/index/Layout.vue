@@ -1,9 +1,24 @@
 <template>
-    <div class="index-wrap">
-        <main>
-            <router-view></router-view>
-        </main>
-        <footer>
+  <div class="index-wrap">
+    <header>猫眼电影</header>
+    <Ad></Ad>
+    <nav class="topbar">
+      <div class="city-entry">
+        <span>北京</span>
+        <i class="yo-ico">&#xf033;</i>
+      </div>
+      <div class="swich-hot">
+        <ul>
+          <router-link to="/index/movies/intheaters" tag="li" active-class="active">正在热映</router-link>
+          <router-link :to="{path:'/index/movies/comingsoon'}" tag="li" active-class="active">即将上映</router-link>
+        </ul>
+      </div>
+      <div class="btn-search yo-ico">&#xf067;</div>
+    </nav>
+    <main>
+      <router-view></router-view>
+    </main>
+    <!-- <footer>
             <ul>
                 <router-link to="/index/movies" tag="li" active-class="active">
                     <span>
@@ -41,60 +56,135 @@
                     <span>我的</span>
                 </router-link>
             </ul>
-        </footer>
+    </footer>-->
 
-
-
-
-
-
-
-
-    </div>
+    <van-tabbar v-model="active" route active-color="#e54748">
+      <van-tabbar-item replace to="/index/movies/Intheaters">
+        <span>电影</span>
+        <img slot="icon" slot-scope="props" :src="props.active ? icon[0].active : icon[0].inactive" />
+      </van-tabbar-item>
+      <van-tabbar-item icon="search" replace to="/index/Theaters">
+        <span>影院</span>
+        <img slot="icon" slot-scope="props" :src="props.active ? icon[1].active : icon[1].inactive" />
+      </van-tabbar-item>
+      <van-tabbar-item icon="setting-o" replace to="/index/Profile">
+        <span>我的</span>
+        <img slot="icon" slot-scope="props" :src="props.active ? icon[2].active : icon[2].inactive" />
+      </van-tabbar-item>
+    </van-tabbar>
+  </div>
 </template>
 
 <script>
+import Vue from "vue";
+import { Tabbar, TabbarItem } from "vant";
+import Ad from "./movies/Ad"
+
+Vue.use(Tabbar).use(TabbarItem);
+
+import movieImg from "assets/movie.png";
+import movieColorImg from "assets/movie-color.png";
+import myImg from "assets/my.png";
+import myColorImg from "assets/my-color.png";
+import cinemaImg from "assets/cinema.png";
+import cinemaColorImg from "assets/cinema-color.png";
+
 export default {
-    
-}
+    components:{
+        
+            Ad
+    },
+  data() {
+    return {
+      active: 0,
+      icon: [
+        {
+          active: movieColorImg,
+          inactive: movieImg
+        },
+        {
+          active: cinemaColorImg,
+          inactive: cinemaImg
+        },
+        {
+          active: myColorImg,
+          inactive: myImg
+        }
+      ]
+    };
+  }
+};
 </script>
 
 <style lang="stylus" scoped>
-    @import "~assets/stylus/border.styl";
-    .index-wrap{
-        display flex
-        height 100%
-        flex-direction column
+header {
+  height: 0.44rem;
+  text-align: center;
+  line-height: 0.44rem;
+  color: #ffffff;
+  font-size: 0.18rem;
+  font-weight: 400;
+  background: #e54847;
+}
+
+nav {
+  height: 0.44rem;
+  display: flex;
+
+  >div:first-child {
+    flex: 16;
+    padding-left: 0.15rem;
+    font-size: 0.16rem;
+    display: flex;
+    align-items: center;
+    color: #666;
+  }
+
+  >div:nth-child(2) {
+    flex: 43;
+
+    ul {
+      display: flex;
+      width: 100%;
+      height: 100%;
+
+      li {
+        line-height: 0.42rem;
+        text-align: center;
+        color: #666;
+        flex: 1;
+        font-weight: 900;
+        margin: 0 0.05rem;
+
+        &.active {
+          color: #e54847;
+          border-bottom: 0.02rem solid #e54847;
         }
-        main{
-            flex 1
-            height 100%
-            background #FFF
-        }
-        footer{
-	height: 48px;
-	background: #FFFFFF;
+      }
+    }
+  }
+
+  >div:last-child {
+    flex: 16;
+    padding-right: 0.15rem;
+    padding-left: 0.1rem;
+    line-height: 0.44rem;
+    text-align: right;
+    font-size: 0.18rem;
+    color: #e54847;
+  }
 }
-footer ul{
-	width: 100%;
-	height: 100%;
-	display: flex;
-	background: #FFFFFF;
-	border-top: 1px solid #CCC;
-	line-height: 1;
-	box-sizing: border-box;
-	padding-top: .02rem;
+
+.index-wrap {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
 }
-footer ul li{
-	flex: 1;
-	display: flex;
-	text-align: center;
-	flex-direction: column;
-}
-footer ul li.active span{
-	color: #e54847;
-}
-footer ul li.active span g{
-	fill: #e54857;
+
+main {
+  flex: 1;
+  height: 100%;
+  background: #FFF;
+  padding-bottom: 50px;
 }
 </style>

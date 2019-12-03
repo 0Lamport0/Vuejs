@@ -1,24 +1,33 @@
 <template>
     <div class="bScroll">
-        <div>
+        <div v-if="movieList.length">
             <MovieItem
                 v-for="movie in movieList"
                 :key="movie.id"
                 :movie="movie"
+                
             ></MovieItem>
         </div>
+        <van-loading type="spinner" color="#1989fa" v-else />   
     </div>
 </template>
 
 <script>
-import bScroll from 'better-scroll';
+import Vue from 'vue';
+import BScroll from 'better-scroll';
 import { get } from "utils/http"
 import MovieItem from "./MovieItem"
+
+import {Loading} from 'vant';
+import { PullRefresh } from 'vant'
+Vue.use(Loading);
 
 export default {
     data(){
         return {
-            movieList:[]
+            movieList:[],
+            isLoading: false,
+            count: 0
         }
     },
 
@@ -26,7 +35,7 @@ export default {
         MovieItem
     },
 
-    async mounted() {
+    async created() {
 
         
         let result = await get({
@@ -35,7 +44,10 @@ export default {
 
         this.movieList = result.movieList
 
-        new bScroll(".bScroll")
+        new BScroll(".bScroll",{
+            pullUpLoad: true,
+            click: true
+        })
     }
 }
 </script>
@@ -49,9 +61,18 @@ header{
 	line-height: 44px;
 	font-size: 18px;
 }
+.van-loading{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    width: .41rem;
+    height: .41rem;
+}
 .bScroll{
     width: 100%;
-    overflow-y: scroll;
 }
     .page{
         position stacic !important    
